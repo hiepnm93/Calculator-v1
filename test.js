@@ -57,6 +57,12 @@ test('mirror a mirror to equal aa', () => {
   expect(math_cal.cal(1.5, "mirror")).toBe(Infinity);
 });
 
+test('convest', () => {
+  expect(JSON.stringify(math_cal.convest("[+3]", ["mirror"]))).toBe(JSON.stringify(["mirror"]));
+  expect(JSON.stringify(math_cal.convest("[+1]", ["mirror","+3","/2","+4"]))).toBe(JSON.stringify(["mirror","+4","/3","+5"]));
+});
+
+
 test('<< aa << to equal a', () => {
   expect(math_cal.cal(0, "<<")).toBe(0);
   expect(math_cal.cal(1, "<<")).toBe(0);

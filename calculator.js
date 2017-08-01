@@ -118,6 +118,39 @@ math_cal.cal = function (number,srt_subtend){
     }
 }
 
+math_cal.cal_v2 = function(number,srt_subtend,arr_subtend){
+    var new_sub = srt_subtend.match(/\[[\+\-\*\/]\d]/g);
+    if (new_sub)
+        return {
+            number:number,
+            srt_subtend:srt_subtend,
+            arr_subtend:math_cal.convest(srt_subtend,arr_subtend)
+        };
+    else
+    return {
+        number:math_cal.cal(number,srt_subtend),
+        srt_subtend:srt_subtend,
+        arr_subtend:arr_subtend
+    }
+}
+
+math_cal.convest = function (srt_subtend,arr_subtend){
+    var arr_subtend_new = [];
+    arr_subtend.forEach(function(element){
+        var new_sub = srt_subtend.match(/\[[\+\-\*\/]\d]/g);
+        var is_number = element.match(/^\d$/g);
+        var is_sub_n = element.match(/^[\+\-\*\/]\d$/g);
+        if (new_sub && (is_sub_n || is_number)){
+            var first_s = new_sub[0].match(/[\+\-\*\/]/g);
+            var se_s = new_sub[0].substring(new_sub[0].indexOf(first_s[0])+1,new_sub[0].indexOf(']'));
+            var new_number = math_cal.cal(parseInt(element.match(/\d/g)?element.match(/\d/g)[0]:element),first_s+se_s);
+            arr_subtend_new.push((element.match(/[\+\-\*\/]/g)?element.match(/[\+\-\*\/]/g)[0]:"")+new_number);
+        }else
+        arr_subtend_new.push(element);
+    })
+    return arr_subtend_new;
+}
+
 math_cal.brute_force = function (step,arr_subtend){
     var array_bf = [];
     var tree_subtend = function(arr_sourch,step,arr_subtend){
@@ -137,6 +170,8 @@ math_cal.brute_force = function (step,arr_subtend){
     return array_bf;
 }
 
+
+
 math_cal.find = function(soutce,des,step,arr_subtend){
     var arr_return = [];
     for (var i=1;i<=step;i++){
@@ -151,11 +186,38 @@ math_cal.find = function(soutce,des,step,arr_subtend){
     return arr_return;
 }
 
+
+math_cal.find_v2 = function(soutce,des,step,arr_subtend){
+    var arr_return = [];
+    for (var i=1;i<=step;i++){
+        var array_bf = math_cal.brute_force(i,arr_subtend);
+        array_bf.forEach(function(element) {
+            var cal_r = math_cal.math_v2(soutce,element);
+            if (cal_r == des ){
+                arr_return.push(element);
+            }
+        });
+    }
+    return arr_return;
+}
+
 math_cal.math = function (soutce,arr_subtend){
     var number = soutce;
     arr_subtend.forEach(function(element) {
         number = math_cal.cal(number,element);
     });
+    
+    return number;
+}
+
+math_cal.math_v2 = function (soutce,arr_subtend){
+    var number = soutce;
+    var arr_subtend_new = arr_subtend;
+    for(var i=0;i<arr_subtend.length;i++){
+        var obj = math_cal.cal_v2(number,arr_subtend_new[i],arr_subtend_new);
+        number = obj.number;
+        arr_subtend_new = obj.arr_subtend;
+    }
     
     return number;
 }
