@@ -25,6 +25,17 @@ test('sum a', () => {
   expect(math_cal.cal(1.5, "sum")).toBe(Infinity);
 });
 
+test('9', () => {
+  expect(math_cal.cal(0, "9")).toBe(9);
+  expect(math_cal.cal(0, "0")).toBe(0);
+  expect(math_cal.cal(19, "9")).toBe(199);
+  expect(math_cal.cal(-9, "9")).toBe(-99);
+});
+
+
+test('9=>19', () => {
+  expect(math_cal.cal(0, "9=>19")).toBe(0);
+});
 
 test('/ 10 / 0 to equal Infinity', () => {
   expect(math_cal.cal(10, "/0")).toBe(Infinity);
@@ -66,6 +77,3 @@ test("math_cal.math(140[ '+9', '<<', '-3', 'mirror', '+9', '+9' ]", () => {
 });
 
 
-test('math_cal.find() ', () => {
-    expect(math_cal.find(125,20,8,["sum","mirror"])).toBe(0);
-});

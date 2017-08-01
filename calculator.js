@@ -57,6 +57,15 @@ math_cal.cal = function (number,srt_subtend){
             }else
                 return 0;
         }
+        if (srt_subtend.indexOf('=>')>-1)
+        {
+            var new_array = srt_subtend.split("=>");
+            var numberL = new_array[0];
+            var numberR = new_array[1];
+            var tmp_string = ""+ number;
+            tmp_string.replace(new RegExp(numberL, 'g'),numberR);
+            return parseInt(tmp_string);
+        }
         if (srt_subtend.indexOf('sum')>-1)
         {
             if (number>0){
@@ -75,8 +84,6 @@ math_cal.cal = function (number,srt_subtend){
         }
         if (srt_subtend.indexOf('<shift')>-1)
         {
-            
-
             if (number>0){
                var srt_tmp = "" + number;
                 if (srt_tmp.length<=1)
@@ -98,10 +105,17 @@ math_cal.cal = function (number,srt_subtend){
                 return 0;
 
         }
-    }
-    
+        if (number<0){
+            var tmp = srt_subtend;
+            var number_new = parseInt(tmp);
+            return -(-number*10+number_new);
+        }else{
+            var tmp = srt_subtend;
+            var number_new = parseInt(tmp);
+            return (number*10+number_new);
+        }
 
-    return 0;
+    }
 }
 
 math_cal.brute_force = function (step,arr_subtend){
