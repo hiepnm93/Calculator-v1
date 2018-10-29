@@ -11,9 +11,9 @@ test('* 10 * a to equal 10*a', () => {
 test('/ 10 / a to equal 10/a', () => {
   expect(math_cal.cal(10, "/2")).toBe(5);
   expect(math_cal.cal(0, "/1")).toBe(0);
-  expect(math_cal.cal(5, "/2")).toBe(2.5);
-  expect(math_cal.cal(5, "/3")).toBe(5/3);
-  expect(math_cal.cal(1.5, "/3")).toBe(Infinity);
+  expect(math_cal.cal(5, "/2").toString()).toBe("NaN");
+  expect(math_cal.cal(5, "/3").toString()).toBe("NaN");
+  expect(math_cal.cal(1.5, "/3").toString()).toBe("Infinity");
 });
 
 test('sum a', () => {
@@ -33,6 +33,11 @@ test('9', () => {
   expect(math_cal.cal(-9, "99")).toBe(-999);
 });
 
+test('^ a', () => {
+  expect(math_cal.cal(0, "^10")).toBe(0);
+  expect(math_cal.cal(-2, "^4")).toBe(16);
+  expect(math_cal.cal(-2, "^3")).toBe(-8);
+});
 
 test('9=>19', () => {
   expect(math_cal.cal(0, "9=>19")).toBe(0);
@@ -43,12 +48,17 @@ test('/ 10 / 0 to equal Infinity', () => {
 });
 
 test('/ 0 / 0 to equal NaN', () => {
-  expect(math_cal.cal(0, "/0").toString()).toBe("NaN");
+  expect(math_cal.cal(0, "/0").toString()).toBe("Infinity");
 });
 
 test('<shift 123456', () => {
   expect(math_cal.cal(123456, "<shift").toString()).toBe("234561");
   expect(math_cal.cal(2, "<shift").toString()).toBe("2");
+});
+
+test('shift> 123456', () => {
+  expect(math_cal.cal(123456, "shift>").toString()).toBe("612345");
+  expect(math_cal.cal(2, "shift>").toString()).toBe("2");
 });
 
 test('mirror a mirror to equal aa', () => {

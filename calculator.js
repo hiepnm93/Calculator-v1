@@ -19,6 +19,10 @@ math_cal.cal = function (number,srt_subtend){
         {
             var srt_tmp = srt_subtend.split("/");
             var number_new = parseInt(srt_tmp[1]);
+            if( number_new == 0 )
+                return Infinity;
+            if(number%number_new !=0)
+                return NaN;
             return (number/number_new);
         }
         if (srt_subtend.indexOf('+')>-1)
@@ -37,9 +41,12 @@ math_cal.cal = function (number,srt_subtend){
         {
         var srt_tmp = srt_subtend.split("^");
             var number_mu = parseInt(srt_tmp[1]);
+            if(number_mu < 0 )
+                return NaN;
             var number_new = number;
-            for(var mu = 0;mu<number_mu;mu++)
-            return (number_new*number);
+            for(var mu = 0;mu<number_mu-1;mu++)
+                number_new = number_new*number
+            return (number_new);
         }
         
         if (srt_subtend.indexOf('mirror')>-1)
@@ -124,6 +131,27 @@ math_cal.cal = function (number,srt_subtend){
                 }
             }else if (number<0){
                 return -math_cal.cal(-number,"<shift");
+            }else
+                return 0;
+
+        }
+        if (srt_subtend.indexOf('shift>')>-1) // 981 9 9981
+        {
+            if (number>0){
+               var srt_tmp = "" + number;
+                if (srt_tmp.length<=1)
+                    return number;
+                else{
+                    var new_array = srt_tmp.split("");
+                    var arr_r = [];
+                    arr_r[0] = new_array[new_array.length-1];
+                    for (var j=1;j<new_array.length;j++){
+                        arr_r[j] = new_array[j-1];
+                    }
+                    return parseInt(arr_r.join(""));
+                }
+            }else if (number<0){
+                return -math_cal.cal(-number,"shift>");
             }else
                 return 0;
 

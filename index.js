@@ -1,17 +1,17 @@
 const math_cal = require('./calculator');
 
-//console.log(math_cal.cal(0, "9"));
+//console.log(math_cal.cal(123456, "shift>"));
 console.log(math_cal.find_v2(
-    0
+    98
     ,
-    45
+    1999
     ,
-    5
+    4
     ,
     [
-        "*9",
-        "*3",
-        "4",
-        "3=>5",
-        "sum"    
+        
+        "1",
+        "9",
+        "89=>99",
+        "shift>"    
     ]));
