@@ -53,6 +53,8 @@ math_cal.cal = function (number,srt_subtend){
         {
             if (number>0){
                 var srt_tmp = "" + number;
+                if(srt_tmp.length>=4)
+                    return NaN;
                 var number_new = srt_tmp.split("").reverse().join("");
                 return parseInt(srt_tmp+number_new);
             }else if (number<0){
