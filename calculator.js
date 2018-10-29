@@ -5,6 +5,10 @@ math_cal.cal = function (number,srt_subtend){
     if (number!=parseInt(number)){
         return Infinity;
     }else{
+        if (srt_subtend.indexOf('+/-')>-1)
+        {
+            return (parseInt(number)*(-1));
+        }
         if (srt_subtend.indexOf('*')>-1)
         {
         var srt_tmp = srt_subtend.split("*");
@@ -29,6 +33,15 @@ math_cal.cal = function (number,srt_subtend){
             var number_new = parseInt(srt_tmp[1]);
             return (number-number_new);
         }
+        if (srt_subtend.indexOf('^')>-1)
+        {
+        var srt_tmp = srt_subtend.split("^");
+            var number_mu = parseInt(srt_tmp[1]);
+            var number_new = number;
+            for(var mu = 0;mu<number_mu;mu++)
+            return (number_new*number);
+        }
+        
         if (srt_subtend.indexOf('mirror')>-1)
         {
             if (number>0){
@@ -40,6 +53,16 @@ math_cal.cal = function (number,srt_subtend){
             }else
                 return 0;
             
+        }
+        if (srt_subtend.indexOf('reverse')>-1)
+        {
+            var numberA = number;
+            if(number<0){
+                numberA = number * (-1);
+            }
+            var srt_number = "" + numberA;
+            srt_number = srt_number.split("").reverse().join("");
+            return parseInt(srt_number)*(number<0?-1:1);
         }
         if (srt_subtend.indexOf('<<')>-1)
         {
@@ -58,12 +81,12 @@ math_cal.cal = function (number,srt_subtend){
                 return 0;
         }
         if (srt_subtend.indexOf('=>')>-1)
-        {
+        {   
             var new_array = srt_subtend.split("=>");
             var numberL = new_array[0];
             var numberR = new_array[1];
             var tmp_string = ""+ number;
-            tmp_string.replace(new RegExp(numberL, 'g'),numberR);
+            tmp_string = tmp_string.replace(new RegExp(numberL, 'g'),numberR);
             return parseInt(tmp_string);
         }
         if (srt_subtend.indexOf('sum')>-1)
@@ -105,14 +128,14 @@ math_cal.cal = function (number,srt_subtend){
                 return 0;
 
         }
-        if (number<0){
+        if(srt_subtend == parseInt(srt_subtend)){
             var tmp = srt_subtend;
-            var number_new = parseInt(tmp);
-            return -(-number*10+number_new);
-        }else{
-            var tmp = srt_subtend;
-            var number_new = parseInt(tmp);
-            return (number*10+number_new);
+            var number_new = number;
+            if (number_new>=0)
+                number_new = number_new * (10 ** tmp.length )+ parseInt(tmp);
+            else
+                number_new = number_new * (10 ** tmp.length) - parseInt(tmp);
+            return (number_new);
         }
 
     }
@@ -189,17 +212,21 @@ math_cal.find = function(soutce,des,step,arr_subtend){
 
 math_cal.find_v2 = function(soutce,des,step,arr_subtend){
     var arr_return = [];
-    for (var i=1;i<=step;i++){
+    for (var i=step;i>=1;i--){
         var array_bf = math_cal.brute_force(i,arr_subtend);
         array_bf.forEach(function(element) {
+            
             var cal_r = math_cal.math_v2(soutce,element);
-            if (cal_r == des ){
+            //console.log(element,cal_r);
+            if (parseInt(cal_r) == parseInt(des) ){
                 arr_return.push(element);
             }
         });
     }
     return arr_return;
 }
+
+
 
 math_cal.math = function (soutce,arr_subtend){
     var number = soutce;

@@ -30,6 +30,7 @@ test('9', () => {
   expect(math_cal.cal(0, "0")).toBe(0);
   expect(math_cal.cal(19, "9")).toBe(199);
   expect(math_cal.cal(-9, "9")).toBe(-99);
+  expect(math_cal.cal(-9, "99")).toBe(-999);
 });
 
 
